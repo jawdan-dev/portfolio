@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Jordan Brown | Game Developer</title>
+	<link rel="stylesheet" href="css/style.css">
+	<script src="/js/content.js"></script>
+</head>
+
+<body>
+	<div class="column">
+		<div id="header" class="shadow">
+			<img src="/media/profile.png">
+			<h1>Jordan Brown</h1>
+			<h2>{ Game Programmer }</h2>
+			<hr>
+			<p>Hi! Welcome to my digital portfolio :)</p>
+			<p>You can see some of the things I've done below!</p>
+			<hr>
+			<p>Also some links:</p>
+			<div id="links">
+				<a href="itch.io"><button>itch.io</button></a>
+				<a href="https://github.com/jawdan-dev/"><button>GitHub</button></a>
+				<a href="https://twitter.com/jawdandev"><button>Twitter</button></a>
+				<a href="https://bsky.app/profile/jawdan.dev"><button>Bluesky</button></a>
+			</div>
+		</div>
+
+
+		<div id="tag_buttons" class="shadow"> </div>
+
+		<div id="projects" class="thumbnail_contianer"> </div>
+
+		<div id="footer"></div>
+	</div>
+</body>
+
+<script>
+	const observer = new IntersectionObserver((entries, observer) => {
+		entries.forEach(entry => {
+			if (entry.intersectionRatio <= 0.0) {
+				// entry.target.style.backgroundImage = "";
+			} else {
+				entry.target.style.backgroundImage = entry.target.data;
+			}
+		});
+	});
+	function set_content(tag = "All") {
+		const projects_container = document.querySelector("#projects");
+
+		while (projects_container.hasChildNodes())
+			projects_container.removeChild(projects_container.childNodes[0]);
+
+		content.projects.forEach(project => {
+			if (tag !== "All" && (!project.tags ||
+				project.tags.findIndex(x => x === tag) == -1))
+				return;
+
+			const thumbnail = document.createElement("div");
+			thumbnail.classList.add("thumbnail");
+			if (project.major) thumbnail.classList.add("major")
+			if (project.thumbnail) {
+				thumbnail.data = `url(${project.thumbnail})`;
+			}
+			if (project.pixelated === undefined || project.pixelated === true) thumbnail.classList.add("pixelated");
+
+			const info_div = document.createElement("div");
+			info_div.classList.add("info");
+			{
+				let time_str = "";
+				const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+				if (project.start_date) {
+					const start_date = new Date(project.start_date);
+					if (project.end_date) {
+						const end_date = new Date(project.end_date);
+
+						const days = Math.floor((end_date - start_date) / 86400000);
+						const day_str = (0 < days && days <= 31) ? ` (${days} ${days > 1 ? "days" : "day"})` : "";
+
+						if (start_date.getFullYear() == end_date.getFullYear()) {
+							if (start_date.getMonth() == end_date.getMonth()) {
+								time_str = `${months[end_date.getMonth()]} ${end_date.getFullYear().toString()}${day_str}`;
+							} else if (days <= 31) {
+								time_str = `${months[start_date.getMonth()]} ${start_date.getFullYear().toString()}${day_str}`;
+							} else {
+								time_str = `${months[start_date.getMonth()]} - ${months[end_date.getMonth()]} ${end_date.getFullYear().toString()}`;
+							}
+						} else {
+							time_str = `${months[start_date.getMonth()]} ${start_date.getFullYear()} - ${months[end_date.getMonth()]} ${end_date.getFullYear().toString()}${day_str}`;
+						}
+					} else {
+						time_str = `${months[start_date.getMonth()]} ${start_date.getFullYear().toString()} - Present`;
+					}
+				} else if (project.end_date) {
+					const end_date = new Date(project.end_date);
+					time_str = `${months[end_date.getMonth()]} ${end_date.getFullYear().toString()}`;
+				}
+
+				const name = project.name;
+				const for_ = project.for ? ` | ${project.for}` : "";
+				const people = project.people ? ` | ${project.people} People` : "";
+
+				const info = document.createElement("span");
+				info.classList.add("info");
+				info.innerHTML = `${name}${for_}${people}`;
+				info_div.appendChild(info);
+
+				const date = document.createElement("i");
+				date.classList.add("date");
+				date.innerHTML = time_str;
+				info_div.appendChild(date);
+			}
+			thumbnail.appendChild(info_div);
+
+			const flex_div = document.createElement("div");
+			flex_div.classList.add("flex");
+
+			const div = document.createElement("div");
+
+			const header = document.createElement("h2");
+			header.innerHTML = project.name;
+			div.appendChild(header);
+
+			if (project.description) {
+				const description = document.createElement("p");
+				description.innerHTML = project.description;
+				div.appendChild(description);
+			}
+			if (project.links) {
+				const button_container = document.createElement("div");
+				button_container.classList.add("button_container");
+
+				Object.keys(project.links).forEach(link_name => {
+					const link = project.links[link_name];
+					const a = document.createElement("a");
+					a.href = link;
+					const button = document.createElement("button");
+					button.innerHTML = link_name;
+					a.appendChild(button);
+					button_container.appendChild(a);
+				});
+				div.appendChild(button_container);
+			}
+
+			flex_div.appendChild(div);
+			thumbnail.appendChild(flex_div);
+			projects_container.appendChild(thumbnail);
+			observer.observe(thumbnail);
+		});
+
+		document.querySelectorAll("#tag_buttons>.button_container>button.toggled").forEach(b => {
+			b.classList.remove("toggled");
+		});
+		document.querySelector(`#tag_buttons>.button_container>button[data="${tag}"]`).classList.add("toggled");
+	}
+
+	function add_tag_buttons() {
+		const parent = document.querySelector("#tag_buttons");
+
+		tag_groups.forEach(group => {
+			const button_container = document.createElement("div");
+			button_container.classList.add("button_container");
+
+			group.forEach(tag => {
+				const button = document.createElement("button");
+				button.classList.add("tag");
+				button.onclick = () => {
+					set_content(tag);
+				}
+				button.innerHTML = tag;
+				button.setAttribute("data", tag);
+
+				button_container.appendChild(button);
+			});
+
+			parent.appendChild(button_container);
+		})
+	}
+
+	add_tag_buttons();
+	set_content("Presentable");
+</script>
+
+</html>
