@@ -631,8 +631,8 @@ const content = {
 			description: 'Generates .WAV files in C++',
 			end_date: Date.UTC(2023, 2, 3),
 			links: {
-				"Megolavania": "/media/aduio/wav_megolavania.wav",
-				"Lag Train": "/media/aduio/wav_lag_train.wav",
+				"Megolavania": "/media/audio/wav_megolavania.wav",
+				"Lag Train": "/media/audio/wav_lag_train.wav",
 			},
 			tags: [content_tags.PRESENTABLE, content_tags.EXPERIMENT, content_tags.AUDIO]
 		},
