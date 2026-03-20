@@ -190,7 +190,7 @@ const content = {
 			name: 'Goblin Hero',
 			description: '<p>NDS autobattler roguelike!</p>\
 				<ul>\
-					<li>Made in a custom engine the NDS!</li>\
+					<li>Made in a custom engine for the Nintendo DS!</li>\
 					<li>Runs both on emulators and native hardware!!</li>\
 					<li>Required a lot of perfomance considerations</li>\
 					<li>Won the <strong>Best Use of Modifier</strong> award</li>\
@@ -618,6 +618,7 @@ const content = {
 		},
 		{
 			name: 'Playing Music On Motors',
+			description: "Music being on a Nema 42 stepper motor using an Arduino.",
 			thumbnail: '/media/thumbnails/2020-2025/motor-music.png',
 			end_date: Date.UTC(2022, 9, 24),
 			links: {
@@ -654,14 +655,14 @@ const content = {
 		},
 		{
 			name: 'MenuSync',
-			description: 'C sockets test with imgui for the frontend',
+			description: "Test of C's network sockets using imgui for the frontend",
 			thumbnail: '/media/thumbnails/2020-2025/menusync.gif',
 			end_date: Date.UTC(2024, 9, 29),
 			tags: [content_tags.PRESENTABLE, content_tags.EXPERIMENT, content_tags.NETWORKING, content_tags.CUSTOM_ENGINE],
 		},
 		{
 			name: '3D Printer Image Plotter',
-			description: 'Converted images to GCode instructions for a 3D printer and drawn using a Sharpie with a custom head attachment',
+			description: 'Converted images to GCode instructions for a 3D printer and drawn using a Sharpie with a custom print head attachment',
 			thumbnail: '/media/thumbnails/2020-2025/plotter.gif',
 			pixelated: false,
 			end_date: Date.UTC(2022, 2, 9),
