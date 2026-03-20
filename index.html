@@ -111,13 +111,19 @@
 				}
 
 				const name = project.name;
-				const for_ = project.for ? ` | ${project.for}` : "";
-				const people = project.people ? ` | ${project.people} People` : "";
-
+				// const people = project.people ? ` | ${project.people} People` : "";
+				
 				const info = document.createElement("span");
 				info.classList.add("info");
-				info.innerHTML = `${name}${for_}${people}`;
+				info.innerHTML = `${name}`;
 				info_div.appendChild(info);
+				
+				if (project.for) {
+					const middle = document.createElement("span");
+					middle.classList.add("middle");
+					middle.innerHTML = `${project.for}`;
+					info_div.appendChild(middle);
+				}
 
 				const date = document.createElement("i");
 				date.classList.add("date");
